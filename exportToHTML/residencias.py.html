@@ -1,0 +1,26 @@
+<html>
+<head>
+<title>residencias.py</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #c678dd;}
+.s1 { color: #abb2bf;}
+</style>
+</head>
+<body bgcolor="#282c34">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+residencias.py</font>
+</center></td></tr></table>
+<pre><span class="s0">from </span><span class="s1">peewee </span><span class="s0">import </span><span class="s1">AutoField, CharField, Model</span>
+<span class="s0">from </span><span class="s1">config.database </span><span class="s0">import </span><span class="s1">database</span>
+
+<span class="s0">class </span><span class="s1">residenciaDB(Model):</span>
+    <span class="s1">id = AutoField()</span>
+    <span class="s1">proprietario = CharField()</span>
+
+    <span class="s0">class </span><span class="s1">Meta:</span>
+        <span class="s1">database = database</span></pre>
+</body>
+</html>
