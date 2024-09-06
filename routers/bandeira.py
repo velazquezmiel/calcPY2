@@ -1,4 +1,4 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, HTTPException
 from models.bandeira import BandeiraDB
 from schemas.bandeira import(
     BandeiraCreate,
@@ -24,11 +24,15 @@ def listar_bandeira (bandeira_id: int):
     bandeira = BandeiraDB.get_or_none(BandeiraDB.id == bandeira_id)
     return bandeira
 
-@router.patch(path='/(bandeira_id}', response_model=BandeiraRead)
-def atualizar_bandeira (bandeira_id: int, comodo_atualizado: BandeiraUpdate):
-    bandeira = BandeiraDB.get_or_none (BandeiraDB.id == bandeira_id)
-    bandeira.tarifa = comodo_atualizado.tarifa
-    bandeira.nome = comodo_atualizado.nome
+
+@router.patch(path='/{bandeira_id}', response_model=BandeiraRead)
+def atualizar_bandeira(bandeira_id: int, bandeira_atualizada: BandeiraUpdate):
+    bandeira = BandeiraDB.get_or_none(BandeiraDB.id == bandeira_id)
+    if not bandeira:
+        raise HTTPException(status_code=404, detail="Bandeira não encontrada")
+
+    bandeira.nome = bandeira_atualizada.nome
+    bandeira.tarifa = bandeira_atualizada.tarifa
     bandeira.save()
     return bandeira
 

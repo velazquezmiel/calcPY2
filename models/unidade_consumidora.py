@@ -7,8 +7,10 @@ class UnidadeConsumidoraDB(Model):
     tipo = ForeignKeyField(
         column_name='unidade_consumidora_tipo_id',
         model=TipoConsumidorDB,
-        backref='unidades_consumidoras'
+        backref='unidades_consumidoras',
+        null=False
     )
     class Meta:
         database = database
         table_name = 'unidades_consumidoras'
+

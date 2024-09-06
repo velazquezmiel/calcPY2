@@ -1,4 +1,4 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, HTTPException
 from models.tipo_consumidor import TipoConsumidorDB
 from schemas.tipo_consumidor import (
     TipoConsumidorCreate,
@@ -38,8 +38,10 @@ def atualizar_tipo_de_consumidor ( tipo_consumidor_id: int, tipo_atualizado: Tip
     tipo.save()
     return tipo
 
-@router.delete(path='/{tipo_consumidor_id}', response_model=TipoConsumidorRead)
-def excluir_tipo_de_consumidor (tipo_consumidor_id: int):
-    tipo = TipoConsumidorDB.get_or_none(TipoConsumidorDB.id == tipo_consumidor_id )
-    tipo.delete_instance()
-    return tipo
+@router.delete('/{tipo_consumidor_id}', response_model=TipoConsumidorRead)
+def excluir_tipo_de_consumidor(tipo_consumidor_id: int):
+    tipo = TipoConsumidorDB.get_or_none(TipoConsumidorDB.id == tipo_consumidor_id)
+    if tipo:
+        tipo.delete_instance()
+        return tipo
+    raise HTTPException(status_code=404, detail="Tipo de consumidor não encontrado")

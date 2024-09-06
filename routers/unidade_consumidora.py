@@ -20,7 +20,8 @@ def criar_unidade_consumidora(nova_unidade_consumidora: UnidadeConsumidoraCreate
 @router.get('', response_model=UnidadeConsumidoraReadList)
 def listar_unidades_consumidoras():
     unidades_consumidoras = UnidadeConsumidoraDB.select()
-    return {'unidades_consumidoras': unidades_consumidoras}
+    return {'unidades_consumidoras': [unidade_consumidora for unidade_consumidora in unidades_consumidoras]}
+
 
 @router.get('/{id_consumidor}', response_model=UnidadeConsumidoraRead)
 def listar_unidade_consumidora(id_consumidor: int):
@@ -41,3 +42,8 @@ def excluir_unidade_consumidora(id_consumidor: int):
     if unidade_consumidora:
         unidade_consumidora.delete_instance()
     return unidade_consumidora
+
+@router.get("/unidades-consumidoras")
+async def get_unidades_consumidoras():
+    # Simulando uma lista de resposta
+    return [{"id": 1, "proprietario": "João"}, {"id": 2, "proprietario": "Maria"}]

@@ -1,4 +1,5 @@
 from pydantic import BaseModel
+from typing import List
 from schemas.dependencia import DependenciaReadMany
 
 class UnidadeConsumidoraCreate(BaseModel):
@@ -12,12 +13,18 @@ class UnidadeConsumidoraRead(BaseModel):
     id: int
     nome: str
     tipo_id: int
-    dependencias: list[DependenciaReadMany]
+    dependencias: List[DependenciaReadMany]
+
+    class Config:
+        orm_mode = True  # Adicione esta linha
 
 class UnidadeConsumidoraReadForList(BaseModel):
     id: int
     nome: str
     tipo_id: int
 
+    class Config:
+        orm_mode = True  # Adicione esta linha
+
 class UnidadeConsumidoraReadList(BaseModel):
-    unidades_consumidoras: list[UnidadeConsumidoraReadForList]
+    unidades_consumidoras: List[UnidadeConsumidoraReadForList]
