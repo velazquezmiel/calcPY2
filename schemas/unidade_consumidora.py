@@ -28,3 +28,8 @@ class UnidadeConsumidoraReadForList(BaseModel):
 
 class UnidadeConsumidoraReadList(BaseModel):
     unidades_consumidoras: List[UnidadeConsumidoraReadForList]
+
+class UnidadeConsumidoraOut(BaseModel):
+    id: int
+    nome: str
+    tipo_id: int  # Certifique-se de que este campo está presente

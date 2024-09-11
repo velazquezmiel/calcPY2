@@ -1,43 +1,45 @@
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter
+
 from models.bandeira import BandeiraDB
-from schemas.bandeira import(
+from schemas.bandeira import (
     BandeiraCreate,
     BandeiraRead,
     BandeiraReadList,
-    BandeiraUpdate
+    BandeiraUpdate,
 )
 
-router = APIRouter (prefix='/bandeiras', tags=['BANDEIRAS'])
+router = APIRouter(prefix='/bandeiras', tags=['BANDEIRAS'])
+
 
 @router.post(path='', response_model=BandeiraRead)
-def criar_bandeira (nova_bandeira: BandeiraCreate):
+def criar_bandeira(nova_bandeira: BandeiraCreate):
     bandeira = BandeiraDB.create(**nova_bandeira.model_dump())
     return bandeira
+
 
 @router.get(path='', response_model=BandeiraReadList)
 def listar_bandeira():
     bandeiras = BandeiraDB.select()
     return {'bandeiras': bandeiras}
 
+
 @router.get(path='/{bandeira_id}', response_model=BandeiraRead)
-def listar_bandeira (bandeira_id: int):
+def listar_bandeira(bandeira_id: int):
     bandeira = BandeiraDB.get_or_none(BandeiraDB.id == bandeira_id)
     return bandeira
 
 
 @router.patch(path='/{bandeira_id}', response_model=BandeiraRead)
-def atualizar_bandeira(bandeira_id: int, bandeira_atualizada: BandeiraUpdate):
+def atualizar_bandeira(bandeira_id: int, comodo_atualizado: BandeiraUpdate):
     bandeira = BandeiraDB.get_or_none(BandeiraDB.id == bandeira_id)
-    if not bandeira:
-        raise HTTPException(status_code=404, detail="Bandeira não encontrada")
-
-    bandeira.nome = bandeira_atualizada.nome
-    bandeira.tarifa = bandeira_atualizada.tarifa
+    bandeira.tarifa = comodo_atualizado.tarifa
+    bandeira.nome = comodo_atualizado.nome
     bandeira.save()
     return bandeira
 
+
 @router.delete(path='/{bandeira_id}', response_model=BandeiraRead)
 def excluir_bandeira(bandeira_id: int):
-    bandeira = BandeiraDB.get_or_none (BandeiraDB.id == bandeira_id)
+    bandeira = BandeiraDB.get_or_none(BandeiraDB.id == bandeira_id)
     bandeira.delete_instance()
     return bandeira
